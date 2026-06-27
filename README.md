@@ -1,4 +1,4 @@
-# 📡 API Sentinel
+# 📡 Real-Time API Monitoring Platform
 
 > **A production-inspired API monitoring platform that continuously checks API health, tracks response times, stores historical uptime data, and visualizes system health through a real-time dashboard.**
 
