@@ -1,4 +1,3 @@
-````md
 # 📡 API Sentinel
 
 > **A production-inspired API monitoring platform that continuously checks API health, tracks response times, stores historical uptime data, and visualizes system health through a real-time dashboard.**
@@ -393,23 +392,13 @@ git push origin feature/new-feature
 
 ---
 
-# 📄 License
-
-This project is licensed under the **MIT License**.
-
----
-
-# 👨‍💻 Author
 
 **Prashik Mane**
 
-- 🎓 B.Tech Biotechnology, IIT Kharagpur
-- 💻 Aspiring Software Engineer
-- 🌱 Passionate about Backend Development, System Design, and Full Stack Development
+- 🎓 B.Tech, IIT Kharagpur
 
 ---
 
 ## ⭐ Support
 
 If you found this project helpful, consider giving it a **⭐ Star** on GitHub. It helps others discover the project and motivates future improvements.
-````
