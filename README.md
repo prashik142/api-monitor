@@ -1,38 +1,105 @@
-# 📡 API Sentinel: Full-Stack Monitoring Engine
+# 📡 API Sentinel: Automated Monitoring Platform
 
-A robust, autonomous background monitoring system built to track the health, latency, and uptime of external APIs. 
+A lightweight, production-inspired backend application that continuously monitors external APIs and services, tracks response times, records status codes, and visualizes system health on an auto-refreshing dashboard.
 
-Unlike standard CRUD applications, this project relies on an automated background engine that polls endpoints at scheduled intervals, handles network layer security (User-Agents), and persists system telemetry to a cloud database for real-time visualization.
+## Overview
 
-## ✨ Key Features
+In real-world applications, downtime can lead to lost revenue and poor user experience. This platform helps developers autonomously track the health of their integrations without relying on manual checks. 
 
-* **Autonomous Polling Engine:** Utilizes `node-cron` to execute high-frequency HTTP requests to target APIs without requiring user interaction.
-* **Real-Time Telemetry:** Tracks network latency (`ms`) and parses HTTP server responses (`Status Codes`) to determine system health.
-* **Resilient Error Handling:** Gracefully manages network timeouts, invalid domains, and strict server security policies (e.g., handling `403 Forbidden` responses).
-* **Dynamic Dashboard:** A lightweight, auto-refreshing UI built with Vanilla JS and Tailwind CSS that consumes the backend REST API to visualize data.
-* **Cloud-Native Database:** Utilizes Prisma ORM connected to a Neon Serverless PostgreSQL database.
+## How It Works
 
-## 🛠 Tech Stack
+User Adds Monitor via Dashboard
+        ↓
+Cron Job Runs Every 60 Seconds
+        ↓
+Axios Pings API Endpoints
+        ↓
+Calculate Latency (ms) & Status
+        ↓
+Result Stored in PostgreSQL
+        ↓
+Dashboard Auto-Refreshes UI
 
-* **Backend:** Node.js, Express.js
-* **Database:** PostgreSQL (Hosted on Neon), Prisma ORM
-* **Background Jobs:** `node-cron`
-* **HTTP Client:** Axios
-* **Frontend:** Vanilla JavaScript, HTML5, Tailwind CSS (CDN)
-* **Deployment:** Render (Web Service)
+## Features
 
-## ⚙️ System Architecture
+**Core Monitoring Engine**
+* Background Cron Job Execution
+* Automatic API Health Checks
+* Response Time (Latency) Tracking
+* Status Code Validation (e.g., 200 OK vs 403 Forbidden)
+* Network Layer Security Bypass (User-Agent Injection)
 
-1. **The Engine:** A cron job ticks every 60 seconds, fetching all active monitors from the PostgreSQL database.
-2. **The Ping:** Axios sends out asynchronous HTTP requests to the target endpoints.
-3. **The Log:** The response time and HTTP status code are calculated and pushed back into the database via Prisma.
-4. **The UI:** The Express server serves a static dashboard that fetches the latest telemetry data every 10 seconds.
+**Dashboard & Visualization**
+* Auto-refreshing UI (Updates every 10 seconds)
+* Dynamic Color Coding (Green for UP, Red for DOWN)
+* Real-time Latency Metrics
+* Status Code Readouts
+* Form-based UI to seamlessly add new endpoints
 
----
+**Data Persistence**
+* Hosted Serverless PostgreSQL (Neon)
+* Prisma ORM for seamless data modeling
+* Historical tracking of all pings
 
-## 🚀 Getting Started (Local Development)
+## Tech Stack
 
-### 1. Clone the Repository
+**Backend**
+* Node.js
+* Express.js
+
+**Database**
+* PostgreSQL (Neon Serverless)
+* Prisma ORM
+
+**Monitoring & Utilities**
+* Axios (HTTP Requests)
+* node-cron (Task Scheduling)
+
+**Frontend**
+* Vanilla JavaScript
+* HTML5
+* Tailwind CSS (via CDN)
+
+**Deployment**
+* Render (Web Service)
+
+## Database Models
+
+**Monitor**
+* id (UUID)
+* name (String)
+* url (String)
+* method (String)
+* expectedStatus (Int)
+* interval (Int)
+* createdAt (DateTime)
+
+**CheckResult**
+* id (UUID)
+* monitorId (String, Foreign Key)
+* status (String - UP/DOWN)
+* statusCode (Int)
+* responseTime (Int - ms)
+* error (String)
+* checkedAt (DateTime)
+
+## 🔌 API Endpoints
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **GET** | `/monitors` | Fetch all monitors and their 5 most recent ping results |
+| **POST** | `/monitors` | Add a new API endpoint to the monitoring engine |
+| **GET** | `/` | Serves the HTML dashboard interface |
+
+## Environment Variables
+
+Create a `.env` file in the root of your directory:
+`PORT=3000`
+`DATABASE_URL="postgresql://user:password@your-database-url.com/neondb?sslmode=require"`
+
+## Installation & Setup
+
+**1. Clone the repository:**
 ```bash
-git clone [https://github.com/yourusername/api-monitor.git](https://github.com/yourusername/api-monitor.git)
+git clone <your-github-repo-url>
 cd api-monitor
